@@ -7,6 +7,8 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Card from "./Card";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import { createDrawerNavigator } from '@react-navigation/drawer';
+
 const Tab = createMaterialBottomTabNavigator();
 
 function MyTabs() {
