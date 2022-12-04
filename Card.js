@@ -6,6 +6,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
 import { useEffect, useState } from "react";
 import { createDrawerNavigator } from "@react-navigation/drawer";
+import httpClient from "./httpClient";
 
 type CardsComponentsProps = {};
 
@@ -15,10 +16,21 @@ const Cards: React.FunctionComponent<CardsComponentsProps> = () => {
     const [data,setData] = useState([]);
     useEffect(() => {
 
-fetch("https://dummyjson.com/products/")
-	.then((res) => res.json())
-	.then((json) => setData(json.products));
-    }, [])
+// fetch("https://dummyjson.com/products/")
+// 	.then((res) => res.json())
+// 	.then((json) => setData(json.products));
+//     }, [])
+
+	httpClient.getAllKonten().then((konten) => {
+		// console.log(konten);
+		konten.forEach((konten) => {
+			konten.content = konten.content.substring(0, 100);
+		});
+		setData(konten);
+	}).catch((err) => {
+		console.log(err);
+	});
+	}, []);
     
 
 
@@ -35,9 +47,7 @@ fetch("https://dummyjson.com/products/")
 								<Text
 									onPress={() =>
 										navigation.navigate("Details", {
-											itemId: 86,
-                                            otherParam: "anything you want here",
-                                    
+											itemId: item._id,
 										})
 									}
 									style={styles.header}
@@ -45,10 +55,12 @@ fetch("https://dummyjson.com/products/")
 									{item.title}
 								</Text>
 								<Text
-									onPress={() => navigation.navigate("Details")}
+									onPress={() => navigation.navigate("Details",{
+										itemId: item._id,
+									})}
 									style={styles.description}
 								>
-									{item.description}
+									{item.content}
 								</Text>
 							</Card>
 						))}
