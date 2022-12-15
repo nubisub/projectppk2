@@ -6,8 +6,11 @@ import {View} from "react-native";
 import Card from "./Home/Card";
 import ProfileTab from "./Profile";
 import {createNativeStackNavigator} from "@react-navigation/native-stack";
+import {useEffect} from "react";
+import httpClient from "../../httpClient";
 const Tab = createMaterialBottomTabNavigator();
 const Stack = createNativeStackNavigator();
+import Create from "./Create";
 
 function HomeScreen({ navigation }) {
     return (
@@ -80,7 +83,7 @@ function MyTabs({ navigation }) {
             />
             <Tab.Screen
                 name="Notifications"
-                component={DetailsScreen}
+                component={Create}
                 options={{
                     tabBarLabel: "Updates",
                     showLabel: false,

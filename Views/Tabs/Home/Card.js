@@ -1,12 +1,14 @@
-import React from "react";
+import React, {useCallback} from "react";
 import { View, ScrollView, StyleSheet, Image } from "react-native";
 import { Text, Card, Button, Icon } from "@rneui/themed";
-import { NavigationContainer } from "@react-navigation/native";
+import {NavigationContainer, useFocusEffect} from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
 import { useEffect, useState } from "react";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import httpClient from "../../../httpClient";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import jwtDecode from "jwt-decode";
 
 type CardsComponentsProps = {};
 
@@ -14,16 +16,21 @@ const Cards: React.FunctionComponent<CardsComponentsProps> = () => {
 
 	const navigation = useNavigation();
     const [data,setData] = useState([]);
+	const [username,setUsername] = useState("");
 
-    useEffect(() => {
-	httpClient.getAllKonten().then((konten) => {
-		konten.forEach((konten) => {
-			konten.content = konten.content.substring(0, 100);
+
+
+    useEffect( () => {
+		// navigate effect
+
+		httpClient.getAllKonten().then((konten) => {
+			konten.forEach((konten) => {
+				konten.content = konten.content.substring(0, 100);
+			});
+			setData(konten);
+		}).catch((err) => {
+			console.log(err);
 		});
-		setData(konten);
-	}).catch((err) => {
-		console.log(err);
-	});
 	}, []);
 
     return (

@@ -46,7 +46,7 @@ function Signup({ navigation }) {
         };
         httpClient.signUp(data).then((res) => {
             if (res.success) {
-                alert("Sign Up Success");
+                navigation.navigate("Home", {screen: "Feed"});
             } else {
                 alert("Sign Up Failed, Check your username and password");
             }
@@ -85,6 +85,7 @@ function Signup({ navigation }) {
                 <Text style={styles.label}>Password</Text>
                 <TextInput
                     selectionColor={"#118bd2"}
+                    secureTextEntry={true}
                     style={styles.input}
                     onChangeText={onChangePassword}
                     value={password}
@@ -93,6 +94,7 @@ function Signup({ navigation }) {
                 <Text style={styles.label}>Confirm Password</Text>
                 <TextInput
                     selectionColor={"#118bd2"}
+                    secureTextEntry={true}
                     style={styles.input}
                     onChangeText={onChangeConfirmPassword}
                     value={confirmPassword}

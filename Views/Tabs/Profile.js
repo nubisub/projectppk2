@@ -1,7 +1,11 @@
-import {useState} from "react";
+import {useCallback, useState} from "react";
 import {SafeAreaView, StyleSheet, TextInput, View} from "react-native";
 import {Avatar, Button, Overlay, Text} from "@rneui/themed";
 import * as React from "react";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import jwtDecode from "jwt-decode";
+import {useFocusEffect} from "@react-navigation/native";
+import httpClient from "../../httpClient";
 
 function ProfileTab({navigation}) {
     const [text, onChangeText] = useState("");
@@ -11,13 +15,43 @@ function ProfileTab({navigation}) {
     const [nama, setNama] = useState("");
     const [email, setEmail] = useState("");
 
+    const getUser = async () => {
+        const value = await AsyncStorage.getItem('@storage_Key');
+        if (value !== null) {
+            const user = jwtDecode(value).username;
+            httpClient.cariUser(user).then((response) => {
+                setUsername(response.username);
+                setNama(response.nama);
+                setEmail(response.email);
+            });
+        }
+    };
+
+    useFocusEffect(
+        useCallback(() => {
+            getUser();
+
+        }, [])
+    )
+
     const onChangeNama = (text) => {
         setNama(text);
     }
     const onChangeEmail = (text) => {
         setEmail(text);
     }
-
+    const confirmUpdate = () => {
+        toggleOverlay();
+        let data = {
+            nama: nama,
+            email: email,
+        }
+        httpClient.updateUser(username,data).then((res) => {
+            console.log(res);
+        }).catch((err) => {
+            console.log(err);
+        })
+    }
     const toggleOverlay = () => {
         setVisible(!visible);
     };
@@ -27,8 +61,13 @@ function ProfileTab({navigation}) {
     const logOut = () => {
         setVisible2(!visible2);
     };
-    const confirmLogOut = () => {
+    const confirmLogOut = async () => {
         setVisible2(!visible2);
+        await AsyncStorage.clear();
+        await AsyncStorage.removeItem('@storage_Key');
+        setNama("");
+        setEmail("");
+        setUsername("");
         navigation.navigate("Login");
     };
 
@@ -91,7 +130,7 @@ function ProfileTab({navigation}) {
                                 }} type="clear" size="sm" style={styles.buttonoverlay2} onPress={toggleOverlay}>
                                     Cancel
                                 </Button>
-                                <Button radius="md" type="clear" size="sm" style={styles.buttonoverlay1} onPress={toggleOverlay}>
+                                <Button radius="md" type="clear" size="sm" style={styles.buttonoverlay1} onPress={confirmUpdate}>
                                     Update
                                 </Button>
                             </View>

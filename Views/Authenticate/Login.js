@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import { StatusBar } from "expo-status-bar";
+import * as Keychain from 'react-native-keychain';
 import {
 	SafeAreaView,
 	StyleSheet,

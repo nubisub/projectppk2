@@ -1,5 +1,7 @@
 import axios from 'axios'
 import jwtDecode from 'jwt-decode'
+import * as Keychain from 'react-native-keychain';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 const API_LINK  = process.env.VITE_API_LINK
 const httpClient = axios.create()
 
@@ -7,22 +9,25 @@ const httpClient = axios.create()
 httpClient.defaults.withCredentials = true
 
 //get token from local storage
-// httpClient.getToken = function() {
-// 	return localStorage.getItem('token')
-// }
+httpClient.getToken = function() {
+	try {
+		return AsyncStorage.getItem('token')
+	} catch (error) {
+		console.log(error)
+		return "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzlhY2VmMWVmYjE1ZDAwMDhiODAxZDAiLCJ1c2VybmFtZSI6ImFkbWluIiwibmFtYSI6IjEyMzQiLCJlbWFpbCI6IjQzMjEiLCJyb2xlIjoiNDMyMSIsIl9fdiI6MCwiaWF0IjoxNjcxMDg5OTA1fQ.DWhNu45JHd3HRQk1zFM762SrB92eJOAU2nbAcT6PDlA"
+	}
+}
 
 //set token to local storage and return it
-// httpClient.setToken = function(token) {
-// 	localStorage.setItem('token', token)
-// 	return token
-// }
+httpClient.setToken = async function (token) {
+	// save to keychain
+	try {
+		await AsyncStorage.setItem('@storage_Key', token)
+	} catch (e) {
+		// saving error
+	}
+}
 
-// get the current user from local storage
-// httpClient.getCurrentUser = function() {
-// 	const token = this.getToken()
-// 	if(token) return jwtDecode(token)
-// 	return null
-// }
 
 // get all users
 httpClient.getAllUsers = function() {
@@ -52,7 +57,12 @@ httpClient.updateUser = function(nama, data) {
 
 httpClient.logIn = function(credentials) {
 	return this({ method: 'post', url: 'https://beppk.vercel.app/api/users/authenticate/',data: credentials
-	}).then(serverResponse => {
+	}).then(async serverResponse => {
+		const token = serverResponse.data.token
+		// set the token in keychain
+		await this.setToken(token).then(r => {
+			console.log(AsyncStorage.getItem('token'))
+		})
 		return serverResponse.data
 	})
 }
@@ -60,7 +70,12 @@ httpClient.logIn = function(credentials) {
 // logIn and signUp functions could be combined into one since the only difference is the url we're sending a request to..
 httpClient.signUp = function(userInfo) {
 	return this({ method: 'post', url: 'https://beppk.vercel.app/api/users', data: userInfo})
-		.then((serverResponse) => {
+		.then(async (serverResponse) => {
+			const token = serverResponse.data.token
+			// set the token in keychain
+			await this.setToken(token).then(r => {
+				console.log(AsyncStorage.getItem('token'))
+			})
 			return serverResponse.data
 		})
 }
