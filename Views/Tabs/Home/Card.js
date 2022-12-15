@@ -6,23 +6,17 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
 import { useEffect, useState } from "react";
 import { createDrawerNavigator } from "@react-navigation/drawer";
-import httpClient from "./httpClient";
+import httpClient from "../../../httpClient";
 
 type CardsComponentsProps = {};
 
-
 const Cards: React.FunctionComponent<CardsComponentsProps> = () => {
+
 	const navigation = useNavigation();
     const [data,setData] = useState([]);
+
     useEffect(() => {
-
-// fetch("https://dummyjson.com/products/")
-// 	.then((res) => res.json())
-// 	.then((json) => setData(json.products));
-//     }, [])
-
 	httpClient.getAllKonten().then((konten) => {
-		// console.log(konten);
 		konten.forEach((konten) => {
 			konten.content = konten.content.substring(0, 100);
 		});
@@ -31,8 +25,6 @@ const Cards: React.FunctionComponent<CardsComponentsProps> = () => {
 		console.log(err);
 	});
 	}, []);
-    
-
 
     return (
 			<>
@@ -41,8 +33,7 @@ const Cards: React.FunctionComponent<CardsComponentsProps> = () => {
 						{data.map((item, index) => (
 							<Card
                             key={index+1}
-								containerStyle={{ margin: 0, marginTop: 2, padding: 10 }}
-								// change screen on press
+								containerStyle={{ margin: 0, marginTop: 3, padding: 10 }}
 							>
 								<Text
 									onPress={() =>
@@ -72,9 +63,9 @@ const Cards: React.FunctionComponent<CardsComponentsProps> = () => {
 
 const styles = StyleSheet.create({
 	header: {
-		fontSize: 20,
+		fontSize: 17,
 		fontWeight: "bold",
-		marginBottom: 10,
+		marginBottom: 8,
 	},
 	description: {
 		fontSize: 16,
