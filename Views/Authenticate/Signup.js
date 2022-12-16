@@ -1,8 +1,11 @@
-import React, {useEffect, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import httpClient from "../../httpClient";
 import {Image, SafeAreaView, StyleSheet, Text, TextInput, View} from "react-native";
 import logo from "../../logo.png";
 import {Button} from "@rneui/themed";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import {useFocusEffect} from "@react-navigation/native";
+import isEmail from 'validator/lib/isEmail';
 
 function Signup({ navigation }) {
     const [username, setUsername] = useState("");
@@ -12,6 +15,19 @@ function Signup({ navigation }) {
     const [confirmPassword, setConfirmPassword] = useState("");
     const [isDisabled, setIsDisabled] = useState(true);
 
+    const getUser = async () => {
+        const value = await AsyncStorage.getItem('@storage_Key');
+        if (value != null) {
+            navigation.navigate("Home");
+        }
+    };
+
+    useFocusEffect(
+        useCallback(() => {
+            getUser();
+
+        }, [])
+    )
     useEffect(() => {
         if (username.length > 0 && password.length > 0 && email.length > 0 && namaLengkap.length > 0 && confirmPassword.length > 0 && password === confirmPassword) {
             setIsDisabled(false);
@@ -37,6 +53,12 @@ function Signup({ navigation }) {
     };
 
     const signupAuth = () => {
+
+        if (!isEmail(email)){
+            alert("Email tidak valid");
+            return;
+        }
+
         const data = {
             username: username,
             password: password,
@@ -100,7 +122,10 @@ function Signup({ navigation }) {
                     value={confirmPassword}
                     placeholder="Confirm Password"
                 />
-                <Button disabled={isDisabled} onPress={signupAuth} radius="md" size="lg" style={styles.button}>
+                <Button disabled={isDisabled} disabledStyle={{
+                    backgroundColor: "#118bd2",
+                    opacity: 0.5,
+                }} onPress={signupAuth} radius="md" size="lg" style={styles.button}>
                     Sign Up
                 </Button>
             </View>

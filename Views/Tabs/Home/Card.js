@@ -16,22 +16,21 @@ const Cards: React.FunctionComponent<CardsComponentsProps> = () => {
 
 	const navigation = useNavigation();
     const [data,setData] = useState([]);
-	const [username,setUsername] = useState("");
 
-
-
-    useEffect( () => {
-		// navigate effect
-
-		httpClient.getAllKonten().then((konten) => {
-			konten.forEach((konten) => {
-				konten.content = konten.content.substring(0, 100);
+	useFocusEffect(
+		useCallback(() => {
+			httpClient.getAllKonten().then((konten) => {
+				konten.forEach((konten) => {
+					konten.content = konten.content.substring(0, 100);
+				});
+				setData(konten);
+			}).catch((err) => {
+				console.log(err);
 			});
-			setData(konten);
-		}).catch((err) => {
-			console.log(err);
-		});
-	}, []);
+		}, [])
+	)
+
+
 
     return (
 			<>

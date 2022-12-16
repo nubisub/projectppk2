@@ -1,13 +1,17 @@
 {
   "expo": {
-    "name": "projectppk2",
+    "androidStatusBar": {
+        "barStyle": "light-content",
+        "backgroundColor": "#000000"
+        },
+    "name": "Instanews",
     "slug": "projectppk2",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/icon.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -24,10 +28,16 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "com.nubisub.projectppk2"
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/icon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "679c6ad9-40bd-4c78-81a6-add285c142de"
+      }
     }
   }
 }

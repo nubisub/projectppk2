@@ -6,11 +6,14 @@ import {View} from "react-native";
 import Card from "./Home/Card";
 import ProfileTab from "./Profile";
 import {createNativeStackNavigator} from "@react-navigation/native-stack";
-import {useEffect} from "react";
+import {useCallback, useEffect} from "react";
 import httpClient from "../../httpClient";
 const Tab = createMaterialBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 import Create from "./Create";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import jwtDecode from "jwt-decode";
+import {useFocusEffect} from "@react-navigation/native";
 
 function HomeScreen({ navigation }) {
     return (
@@ -61,6 +64,19 @@ function StackProfile({navigation}) {
     );
 }
 function MyTabs({ navigation }) {
+    const getUser = async () => {
+        const value = await AsyncStorage.getItem('@storage_Key');
+        if (value == null) {
+            navigation.navigate("Login");
+        }
+    };
+
+    useFocusEffect(
+        useCallback(() => {
+            getUser();
+
+        }, [])
+    )
     return (
         <Tab.Navigator
             screenOptions={{ tabBarShowLabel: false }}
@@ -82,13 +98,13 @@ function MyTabs({ navigation }) {
                 }}
             />
             <Tab.Screen
-                name="Notifications"
+                name="Create"
                 component={Create}
                 options={{
-                    tabBarLabel: "Updates",
+                    tabBarLabel: "Create",
                     showLabel: false,
                     tabBarIcon: ({ color }) => (
-                        <MaterialCommunityIcons name="bell" color={color} size={26} />
+                        <MaterialCommunityIcons name="pen-plus" color={color} size={26} />
                     ),
                 }}
             />

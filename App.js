@@ -17,7 +17,6 @@ function App() {
 				}}
 			>
 				<Stack.Screen
-
 					name="Home"
 					component={Tab}
 					options={{ headerShown: false }}
@@ -26,7 +25,6 @@ function App() {
 					name="Login"
 					component={Login}
 					options={{ headerShown: false }}
-
 				/>
 				<Stack.Screen
 					name="Signup"

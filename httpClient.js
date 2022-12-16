@@ -1,7 +1,6 @@
 import axios from 'axios'
-import jwtDecode from 'jwt-decode'
-import * as Keychain from 'react-native-keychain';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+
 const API_LINK  = process.env.VITE_API_LINK
 const httpClient = axios.create()
 
@@ -9,12 +8,11 @@ const httpClient = axios.create()
 httpClient.defaults.withCredentials = true
 
 //get token from local storage
-httpClient.getToken = function() {
+httpClient.getToken = async function () {
 	try {
-		return AsyncStorage.getItem('token')
+		return await AsyncStorage.getItem('@storage_Key');
 	} catch (error) {
 		console.log(error)
-		return "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzlhY2VmMWVmYjE1ZDAwMDhiODAxZDAiLCJ1c2VybmFtZSI6ImFkbWluIiwibmFtYSI6IjEyMzQiLCJlbWFpbCI6IjQzMjEiLCJyb2xlIjoiNDMyMSIsIl9fdiI6MCwiaWF0IjoxNjcxMDg5OTA1fQ.DWhNu45JHd3HRQk1zFM762SrB92eJOAU2nbAcT6PDlA"
 	}
 }
 

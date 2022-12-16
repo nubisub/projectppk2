@@ -1,4 +1,4 @@
-import {useCallback, useState} from "react";
+import {useCallback, useEffect, useState} from "react";
 import {SafeAreaView, StyleSheet, TextInput, View} from "react-native";
 import {Avatar, Button, Overlay, Text} from "@rneui/themed";
 import * as React from "react";
@@ -6,9 +6,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import jwtDecode from "jwt-decode";
 import {useFocusEffect} from "@react-navigation/native";
 import httpClient from "../../httpClient";
+import isEmail from 'validator/lib/isEmail';
 
 function ProfileTab({navigation}) {
-    const [text, onChangeText] = useState("");
     const [visible, setVisible] = useState(false);
     const [visible2, setVisible2] = useState(false);
     const [username, setUsername] = useState("");
@@ -53,7 +53,11 @@ function ProfileTab({navigation}) {
         })
     }
     const toggleOverlay = () => {
-        setVisible(!visible);
+        if (isEmail(email)) {
+            setVisible(!visible);
+        } else {
+            alert("Email tidak valid");
+        }
     };
     const toggleOverlay2 = () => {
         setVisible2(!visible2);
@@ -107,7 +111,7 @@ function ProfileTab({navigation}) {
                     value={email}
                     placeholder="Email"
                 />
-                <Button radius="md" size="lg" style={styles.button} onPress={toggleOverlay}>
+                <Button  radius="md" size="lg" style={styles.button} onPress={toggleOverlay}>
                     Update Data
                 </Button>
                 <Button radius="md"  buttonStyle={{
