@@ -10,7 +10,19 @@
 
 | username | password |
 |----------|----------|
-| admin    | 12345678    |
-| jody     | 12345678    |
+| admin    | 12345678 |
+
+
+<table>
+    <tr>
+        <td  align="center" colspan="2"><img  width="300" src="docs/gif.gif" alt="Alt text" title="Optional title"></td>
+    </tr>
+    <tr>
+        <td><img src="docs/apple.png" alt="Alt text" title="Optional title"></td>
+        <td><img src="docs/xiaomi.png" alt="Alt text" title="Optional title"></td>
+    </tr>
+</table>
+
+
 
 </div>
