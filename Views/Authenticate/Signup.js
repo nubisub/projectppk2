@@ -64,14 +64,17 @@ function Signup({ navigation }) {
             password: password,
             email: email,
             nama: namaLengkap,
-            role: "member",
+            role: "admin",
+            password_confirmation: password,
         };
         httpClient.signUp(data).then((res) => {
-            if (res.success) {
+            if (res.token) {
                 navigation.navigate("Home", {screen: "Feed"});
             } else {
                 alert("Sign Up Failed, Check your username and password");
             }
+        }).catch((err) => {
+            alert("Sign Up Failed, Check your username and password");
         });
     };
 

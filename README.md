@@ -13,13 +13,24 @@
 | admin    | 12345678 |
 
 
-<table>
-    <tr>
-        <td  align="center" colspan="2"><img  width="300" src="docs/gif.gif" alt="Alt text" title="Optional title"></td>
+<table width="600">
+    <tr  width="100">
+        <td  align="center" colspan="3"><img  width="200" src="docs/gif.gif" alt="Alt text" title="Optional title"></td>
     </tr>
     <tr>
-        <td><img src="docs/apple.png" alt="Alt text" title="Optional title"></td>
-        <td><img src="docs/xiaomi.png" alt="Alt text" title="Optional title"></td>
+        <td ><img width="300" src="docs/login.png" alt="Alt text" title="Optional title"></td>
+        <td><img width="300" src="docs/signup.png" alt="Alt text" title="Optional title"></td>
+        <td><img width="280" src="docs/beranda.png" alt="Alt text" title="Optional title"></td>
+    </tr>
+<tr>
+        <td ><img width="300" src="docs/content.png" alt="Alt text" title="Optional title"></td>
+        <td><img width="300" src="docs/update.png" alt="Alt text" title="Optional title"></td>
+        <td><img width="300" src="docs/create.png" alt="Alt text" title="Optional title"></td>
+    </tr>
+<tr>
+        <td ><img width="300" src="docs/loginfailed.png" alt="Alt text" title="Optional title"></td>
+        <td><img width="300" src="docs/emailrule.png" alt="Alt text" title="Optional title"></td>
+        <td><img width="300" src="docs/menu.png" alt="Alt text" title="Optional title"></td>
     </tr>
 </table>
 

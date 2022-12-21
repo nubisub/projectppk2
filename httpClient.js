@@ -67,13 +67,14 @@ httpClient.logIn = function(credentials) {
 
 // logIn and signUp functions could be combined into one since the only difference is the url we're sending a request to..
 httpClient.signUp = function(userInfo) {
-	return this({ method: 'post', url: 'https://beppk.vercel.app/api/users', data: userInfo})
+	return this({ method: 'post', url: 'http://sialumni.masuk.id/api/register', data: userInfo})
 		.then(async (serverResponse) => {
 			const token = serverResponse.data.token
 			// set the token in keychain
-			await this.setToken(token).then(r => {
-				console.log(AsyncStorage.getItem('token'))
-			})
+
+				await this.setToken(token).then(r => {
+					console.log(AsyncStorage.getItem('token'))
+				})
 			return serverResponse.data
 		})
 }
